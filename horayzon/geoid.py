@@ -2,13 +2,17 @@
 # MIT License
 
 # Load modules
+import gzip
 import os
 import zipfile
-import gzip
+
 import numpy as np
 from scipy import interpolate
+
 from horayzon.auxiliary import get_path_aux_data
 from horayzon.download import file as download_file
+
+# -----------------------------------------------------------------------------
 
 
 def undulation(lon_ip, lat_ip, geoid="EGM96"):
@@ -101,7 +105,7 @@ def undulation(lon_ip, lat_ip, geoid="EGM96"):
         lon_ra = np.append(lon[720:] - 360.0, lon[1:721])
         data_ra = np.hstack((data[:, 720:], data[:, 1:721]))
 
-        # Perform interpolation setup (lat_ra must be strictly increasing)
+        # Perform interpolation
         f_ip = interpolate.RectBivariateSpline(
             lat[::-1], lon_ra, np.flipud(data_ra), kx=1, ky=1
         )
